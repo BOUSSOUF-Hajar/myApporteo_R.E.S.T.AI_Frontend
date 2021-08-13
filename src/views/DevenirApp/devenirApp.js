@@ -51,7 +51,7 @@ export default function DevenirApp(props) {
           height: 400,
           color: "white",
         }}
-        {...rest}
+        
       />
       </div>
       <div
@@ -67,7 +67,7 @@ export default function DevenirApp(props) {
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={8}>
               <Card className={classes[cardAnimaton]}>
-                <form className={classes.form} onSubmit={devenirApp}>
+                <form className={classes.form} >
                   <CardHeader className={classes.cardHeader}>
                     <h3  className={classes.h3}>Devenir un apporteur</h3>
                     

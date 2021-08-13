@@ -11,6 +11,7 @@ class AuthService {
       })
       .then(response => {
         if (response.data.accessToken) {
+          localStorage.setItem("id", JSON.stringify(response.data.id))
           localStorage.setItem("role", JSON.stringify(response.data.roles))
           localStorage.setItem("user", JSON.stringify(response.data));
         }
@@ -57,6 +58,13 @@ isApporteur(){
 }
 isPartenaire(){
   if (this.getUserRole()=="ROLE_PARTENAIRE"){
+    return true;
+  }
+  else
+  return false;
+}
+isAdmin(){
+  if (this.getUserRole()=="ROLE_ADMIN"){
     return true;
   }
   else

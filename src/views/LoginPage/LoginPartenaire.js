@@ -129,7 +129,7 @@ handleLogin(e) {
                 style={styles.form}   onSubmit={this.handleLogin}
             >
                   <CardHeader  style={styles.cardHeader}>
-                    <h3   style={styles.h3}>Inscription</h3>
+                    <h3   style={styles.h3}>Connexion</h3>
                     
             
                   </CardHeader>
@@ -139,6 +139,7 @@ handleLogin(e) {
                     
                   <h5  style={styles.h5}> Email :</h5>
                     <TextValidator
+                    style={{width:"100%"}}
                       name="username"
                         type= "email"
                         onChange={this.handleChange}
@@ -151,6 +152,7 @@ handleLogin(e) {
                    <h5  style={styles.h5}> Mot de passe :
                    </h5>
                     <TextValidator
+                    style={{width:"100%"}}
                      name="password"
                        type="password"
                         autoComplete="off"
@@ -163,9 +165,9 @@ handleLogin(e) {
                    
                   </CardBody>
                   <CardFooter  style={styles.cardFooter}>
-                  <Button type="submit">Se connecter</Button>
+                  <Button type="submit" target="_blank" size="lg" style={styles.button}>Se connecter</Button>
                   <Link to={"/partenaire/inscription"}>
-                  <Button className={styles.buttonInsc} target="_blank" size="lg">
+                  <Button  style={styles.buttonInsc} target="_blank" size="lg">
                       S'inscrire
                     </Button></Link>
                   </CardFooter>

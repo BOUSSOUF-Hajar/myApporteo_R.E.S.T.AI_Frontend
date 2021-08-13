@@ -9,11 +9,14 @@ import RegisterPart from "./views/RegisterPage/registerPartenaire.js";
 import LoginApp from "./views/LoginPage/LoginApporteur.js";
 import LoginPart from "./views/LoginPage/LoginPartenaire.js";
 import comment from "./views/CommentçaMarche/commnentçaMarche.js";
-import mesAffaire from "./views/mesAffaire/mesAffaire";
+import OrderHistory from "./views/MesAffaires/mesAffaires";
 import DenseTable from "./views/cmbjeGagne/cmbjegagne.js";
 import Contact from "./views/Contact/Contact.js";
 import devenirApp from "./views/DevenirApp/devenirApp.js";
-import profilePage from "./views/ProfilePage/ProfilePage"
+import profilePage from "./views/ProfilePage/ProfilePage";
+import DevenirAppo from "./views/ApporteurDevenirApp/devenirApp";
+
+//import {DevenirApp} from "./views/ApporteurDevenirApp/devenirApp";
 // pages for this product
 import Accueil from "./views/Accueil/accueil.js";
 
@@ -27,14 +30,14 @@ ReactDOM.render(
     <Route path="/commentçamarche" component={comment} />
     <Route path="/apporteur/connexion" component={LoginApp} />
     <Route path="/partenaire/connexion" component={LoginPart} />
-
     <Route path="/partenaire/inscription" component={RegisterPart} />
     <Route path="/apporteur/inscription" component={RegisterApp} />
+    <Route path="/apporteur/devenirApporteur" component={DevenirAppo} />
     <Route path="/contact" component={Contact} />
     <Route path="/profile" component={profilePage}/>
     <Route path="/devenirApporteur" component={devenirApp} />
-      <Route path="/" component={Accueil} />
-      <Route path="//apporteur/mes_affaires" component={mesAffaire} />
+    <Route path="/affaires" component={OrderHistory} />
+    <Route path="/" component={Accueil}/>
     </Switch>
   </Router>,
   document.getElementById("root")

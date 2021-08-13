@@ -22,12 +22,7 @@ import CardBody from "../../components/Card/CardBody.js";
 import CardHeader from "../../components/Card/CardHeader.js";
 import CardFooter from "../../components/Card/CardFooter.js";
 import { isEmail } from "validator";
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
+import userService from "../../services/userService";
 import AuthService from "../../services/authService";
 
 import CustomInput from "../../components/CustomInput/CustomInput.js";
@@ -35,7 +30,8 @@ import CustomInput from "../../components/CustomInput/CustomInput.js";
 import styles from "../../assets/jss/material-kit-react/views/loginPage.js";
 import { Component } from "react";
 
-
+var valid=null
+var validU=null
 
 const email = value => {
   if (!isEmail(value)) {
@@ -98,6 +94,44 @@ export default class RegisterPartenaire extends Component {
     ValidatorForm.addValidationRule('vPassword',vpassword);
     ValidatorForm.addValidationRule('vEmail',email);
     ValidatorForm.addValidationRule('vUsername',vusername);
+    ValidatorForm.addValidationRule('emailExist',(value)=>{
+      
+      userService.getUser(value).then(response=>
+        {
+          if (response.data==true){
+            
+           
+            valid=true;
+          }
+          else{
+         
+         valid=false;
+          }
+          
+          
+        });
+       
+     return valid;
+    });
+    ValidatorForm.addValidationRule('usernameExist',(value)=>{
+      
+      userService.getUsername(value).then(response=>
+        {
+          if (response.data==true){
+            
+           
+            validU=true;
+          }
+          else{
+         
+         validU=false;
+          }
+          
+          
+        });
+       
+     return validU;
+    });
     ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
       if (value !== this.state.password) {
           return false;
@@ -196,7 +230,7 @@ export default class RegisterPartenaire extends Component {
                     <TextValidator
                    
                       name="nomAgence"
-                      
+                      style={{width:"80%",margin:"20px"}}
 
                         type="text"
                         onChange= {this.handleChange}
@@ -206,9 +240,10 @@ export default class RegisterPartenaire extends Component {
                     />
                     <h5  style={styles.h5}> Nom de l'utilisateur : </h5>
                     <TextValidator
+                     style={{width:"80%",margin:"20px"}}
                       name="username"
-                      validators={['required','vUsername']}
-                      errorMessages={['Ce champ est obligatoire',"Le nom d’utilisateur doit être suppérieur à 3 caractères. "]}
+                      validators={['required','vUsername','usernameExist']}
+                      errorMessages={['Ce champ est obligatoire',"Le nom d’utilisateur doit être suppérieur à 3 caractères. ","Ce nom d'utilisateur est déja exist"]}
                      type="text"
                         onChange= {this.handleChange}
                         value={this.state.username}
@@ -216,6 +251,7 @@ export default class RegisterPartenaire extends Component {
                    
                     <h5  style={styles.h5}> Nom de la société : </h5>
                     <TextValidator
+                     style={{width:"80%",margin:"20px"}}
                       name="nomSociete"
                         type="text"
                         onChange={this.handleChange}
@@ -226,6 +262,7 @@ export default class RegisterPartenaire extends Component {
                     />
                     <h5  style={styles.h5}> Siret : </h5>
                     <TextValidator
+                     style={{width:"80%",margin:"20px"}}
                       name="Siret"
                         type="text"
                         onChange={this.handleChange}
@@ -236,6 +273,7 @@ export default class RegisterPartenaire extends Component {
                     />
                     <h5  style={styles.h5}> Numéro de carte T : </h5>
                     <TextValidator
+                     style={{width:"80%",margin:"20px"}}
                       name="numCarteT"
                       validators={['required']}
                       errorMessages={[ 'Ce champ est obligatoire']}
@@ -246,6 +284,7 @@ export default class RegisterPartenaire extends Component {
                     />
                     <h5  style={styles.h5}> Carte T délivrée par le CCI de : </h5>
                     <TextValidator
+                     style={{width:"80%",margin:"20px"}}
                       name="CCI"
                      type= "text"
                         onChange={this.handleChange}
@@ -258,7 +297,7 @@ export default class RegisterPartenaire extends Component {
                     <h5  style={styles.h5}> Adresse de l'agence : </h5>
                     <TextValidator
                       name="adresse"
-                     
+                      style={{width:"80%",margin:"20px"}}
                         type="text"
                         onChange={this.handleChange}
                         value={this.state.adresse}
@@ -270,7 +309,7 @@ export default class RegisterPartenaire extends Component {
                     <h5  style={styles.h5}> Ville : </h5>
                     <TextValidator
                       name="ville"
-                     
+                      style={{width:"80%",margin:"20px"}}
                         type="text"
                         onChange={this.handleChange}
                         value={this.state.ville}
@@ -283,7 +322,7 @@ export default class RegisterPartenaire extends Component {
                     <h5  style={styles.h5}> Code postal : </h5>
                     <TextValidator
                       name="codePostal"
-                      
+                      style={{width:"80%",margin:"20px"}}
                       type="text"
                         onChange={this.handleChange}
                         value={this.state.codePostal}
@@ -295,20 +334,20 @@ export default class RegisterPartenaire extends Component {
                      <h5  style={styles.h5}> Email :</h5>
                     <TextValidator
                       name="email"
-                     
+                      style={{width:"80%",margin:"20px"}}
                      
                         type= "email"
                         onChange={this.handleChange}
                         value={this.state.email}
-                        validators={['require','vEmail']}
-                        errorMessages={[ 'Ce champ est obligatoire',"Ce mail n'est valide"]}
+                        validators={['require','vEmail','emailExist']}
+                        errorMessages={[ 'Ce champ est obligatoire',"Ce mail n'est valide","Ce email est déja utilisé pour un autre compte ."]}
                         
                        
                     />
                      <h5  style={styles.h5}> Téléphone :</h5>
                     <TextValidator
                       name="telephone"
-                     
+                      style={{width:"80%",margin:"20px"}}
                         type="phone"
                         onChange={this.handleChange}
                         value={this.state.telephone}
@@ -319,6 +358,7 @@ export default class RegisterPartenaire extends Component {
                    <h5  style={styles.h5}> Mot de passe :
                    </h5>
                     <TextValidator
+                     style={{width:"80%",margin:"20px"}}
                      name="password"
                        type="password"
                         autoComplete="off"
@@ -330,6 +370,7 @@ export default class RegisterPartenaire extends Component {
                         />
                     <h5  style={styles.h5}>Confirmation du mot de passe :</h5>
                      <TextValidator
+                      style={{width:"80%",margin:"20px"}}
                       name="passwordConf"
                      type="password"
                        autoComplet="off"

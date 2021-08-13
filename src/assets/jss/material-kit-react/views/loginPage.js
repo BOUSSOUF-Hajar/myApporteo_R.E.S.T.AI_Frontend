@@ -14,7 +14,7 @@ const signupPageStyle = {
   h5:{
     color:"#009fff",
     fontWeight:"400",
-    fontSize:"20px",
+    fontSize:"15px",
     "&:focus":{
       color:"#009fff",
     }
@@ -112,8 +112,8 @@ const signupPageStyle = {
     fontWeight:"450",
     borderRadius:'40px',
     margin:"10px 30px 0px 0px",
-    fontSize:"15px",
-    padding:"15px 10px",
+    
+    padding:"10px 10px",
     background:"#ff2602",
     "&:hover":{
       background:"white",
@@ -129,9 +129,9 @@ const signupPageStyle = {
     fontWeight:"450",
     borderRadius:'40px',
     margin:"10px 30px 0px 0px",
-    fontSize:"15px",
+    
     background:"white",
-    padding:"15px 15px",
+    padding:"10px 10px",
     "&:hover":{
       background:"#ff2602",
       border: "1px solid #ff2602",

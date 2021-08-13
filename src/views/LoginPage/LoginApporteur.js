@@ -85,16 +85,10 @@ handleLogin(e) {
        window.location.href = "/";
       },
       error => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-
+        
         this.setState({
-          loading: false,
-          message: resMessage
+          
+          message: "Une erreur s'est produite, Veuillez réessayer"
         });
       }
     );
@@ -116,7 +110,7 @@ handleLogin(e) {
        
       />
       </div>
-      <div
+      <div 
         style={styles.pageHeader}
         style={{
           backgroundColor: "#FFFFFF",
@@ -124,7 +118,7 @@ handleLogin(e) {
           backgroundPosition: "top center",
         }}
       >
-        <div style={styles.container}>
+        <div style={styles.container} >
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={6}>
               <Card>
@@ -132,7 +126,7 @@ handleLogin(e) {
                 style={styles.form}   onSubmit={this.handleLogin}
             >
                   <CardHeader  style={styles.cardHeader}>
-                    <h3   style={styles.h3}>Inscription</h3>
+                    <h3   style={styles.h3}>Connexion</h3>
                     
             
                   </CardHeader>
@@ -142,6 +136,7 @@ handleLogin(e) {
                     
                   <h5  style={styles.h5}> Email :</h5>
                     <TextValidator
+                    style={{width:"100%"}}
                       name="email"
                         type= "email"
                         onChange={this.handleChange}
@@ -157,6 +152,7 @@ handleLogin(e) {
                      name="password"
                        type="password"
                         autoComplete="off"
+                        style={{width:"100%"}}
                         onChange={this.handleChange}
                         value={this.state.password}
                         validators={['required','vPassword']}
@@ -166,15 +162,15 @@ handleLogin(e) {
                    
                   </CardBody>
                   <CardFooter  style={styles.cardFooter}>
-                  <Button type="submit">Se connecter</Button>
+                  <Button type="submit"  target="_blank" style={styles.button}>Se connecter</Button>
                   <Link to={"/apporteur/inscription"}>
-                  <Button className={styles.buttonInsc} target="_blank" size="lg">
+                  <Button  target="_blank" size="lg" style={styles.buttonInsc}>
                       S'inscrire
                     </Button></Link>
                   </CardFooter>
-                  {this.state.message}
-                  {this.state.email}
-                  {this.state.username}
+                  <h4 style={{color:"red"}}>
+                  {this.state.message}</h4>
+                  
                 </ValidatorForm>
               </Card>
             </GridItem>

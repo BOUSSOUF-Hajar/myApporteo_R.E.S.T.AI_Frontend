@@ -30,6 +30,7 @@ export default function HeaderLinks(props) {
   const classes = useStyles();
   const isApporteur =AuthService.isApporteur();
   const isPartenaire =AuthService.isPartenaire();
+  const isAdmin=AuthService.isAdmin();
   const isLogged=AuthService.isLogged();
   const logoutUser = async () =>{
     confirmAlert({
@@ -54,7 +55,7 @@ export default function HeaderLinks(props) {
       <List className={classes.list}>
    
   <ListItem className={classes.listItem}>
-      <Link to={"/partenaire/mes_affaires"}>
+      <Link to={"/affaires"}>
       <Button
         target="_blank"
         className={classes.headerButton}
@@ -123,13 +124,66 @@ export default function HeaderLinks(props) {
          
             </>);
     }
+    const adminHeader=() =>{
+      return(
+        <>
+         
+        <List className={classes.list}>
+        <ListItem className={classes.listItem}>
+        <Link to={"/affaires"}>
+        <Button
+          target="_blank"
+          className={classes.headerButton}
+        >
+          Liste affiares 
+        </Button>
+        </Link>
+      </ListItem>
+    <ListItem className={classes.listItem}>
+        <Link to={"/affaires"}>
+        <Button
+          target="_blank"
+          className={classes.headerButton}
+        >
+          Mes affaires
+        </Button>
+        </Link>
+        </ListItem>
+        
+      
+        <ListItem className={classes.listItem}>
+        <Link to={"/apporteur/mes_informations"}>
+        <Button
+          target="_blank"
+          className={classes.headerButton}
+        >
+          Mon profil
+        </Button>
+        </Link>
+      </ListItem>
+      
+      <ListItem className={classes.listItem}>
+      
+            <Button 
+            onClick={logoutUser}
+          target="_blank"
+          className={classes.headerButtonLogout}>
+              Log out
+            </Button>
+           
+      </ListItem>
+      </List>
+     
+    </>
+    )
+    }
   const apporteurHeader = () =>{
     return(
         <>
          
         <List className={classes.list}>
         <ListItem className={classes.listItem}>
-        <Link to={"/apporteur/devenir_apporteur"}>
+        <Link to={"/apporteur/devenirApporteur"}>
         <Button
           target="_blank"
           className={classes.headerButton}
@@ -139,7 +193,7 @@ export default function HeaderLinks(props) {
         </Link>
       </ListItem>
     <ListItem className={classes.listItem}>
-        <Link to={"/apporteur/mes_affaires"}>
+        <Link to={"/affaires"}>
         <Button
           target="_blank"
           className={classes.headerButton}
@@ -183,6 +237,7 @@ export default function HeaderLinks(props) {
     {isApporteur && apporteurHeader()}
     {isPartenaire && partenaireHeader()}
         {!isLogged &&userHeader() }
+        {isAdmin&&adminHeader()}
      <List className={classes.list1}>
             
            
