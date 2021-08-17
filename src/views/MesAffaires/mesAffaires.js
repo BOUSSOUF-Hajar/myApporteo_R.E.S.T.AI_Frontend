@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react'
 import AuthService from "../../services/authService";
+
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -11,7 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Header from "../../components/Header/Header.js";
 import HeaderLinks from "../../components/Header/HeaderLinks.js";
 import Paper from '@material-ui/core/Paper';
-
+import MonAffaire from "./monAffaire";
 import AffaireService from "../../services/affaireSevice";
 import { confirmAlert } from 'react-confirm-alert'; 
 import 'react-confirm-alert/src/react-confirm-alert.css';
@@ -29,12 +30,15 @@ const useStyles = makeStyles({
 
 function OrderHistory() {
     const classes = useStyles();
+    const [isOpen, setIsOpen] = useState(false);
     const [affaires,setAffaires] = useState([])
-    const [file,setFile] = useState(null)
+    const [affaire,setAffaire] = useState(null)
     const isAdmin = AuthService.isAdmin()
     const isApporteur = AuthService.isApporteur()
     const isPartenaire = AuthService.isPartenaire()
     const user = localStorage.getItem('user')
+    const [fileInfo,setFileInfo] = useState([])
+   
     const ajouterContrat=async (id,file)=>{
       if(file==null){
 
@@ -49,8 +53,11 @@ function OrderHistory() {
      );
       }
     }
-
-     
+    const close=() =>{setAffaire(null)}
+    const popup = (row) => {
+        setAffaire(row)  
+    }
+   
 
     useEffect(() => {
         if(user){
@@ -82,7 +89,7 @@ function OrderHistory() {
         }
     },[user,affaires,setAffaires])
     
-    
+  
     const uploadJSONFiles=  e =>{
       e.preventDefault()
       const file=e.target.files[0]
@@ -162,18 +169,14 @@ function OrderHistory() {
               <TableCell align="right">{row.apporteur.username}</TableCell>
               <TableCell align="right">{row.statut}</TableCell>
               <TableCell align="right">{row.contrat}</TableCell>
-              {isAdmin ? <TableCell align="right">
-                 
-                        <input
-                        name="contrat"
-                        onChange={ uploadJSONFiles}
-                            type="file"
-                            accept="application/pdf"
-                           />  <button Onclick={ajouterContrat(row.id,file)}>Ajouter contrat</button> </TableCell>:
-                            null}
-                 
-            
-             
+              
+             <TableCell align="right"><input
+                  type="button"
+                  value="Détail"
+                  onClick={popup}
+               /></TableCell> 
+              {affaire && <MonAffaire affaire={affaire} popup={close}/>}
+              
               </TableRow>
           ))}
             </TableBody>

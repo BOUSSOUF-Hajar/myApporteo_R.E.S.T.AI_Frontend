@@ -23,5 +23,11 @@ class AffaireService{
         }
         );
     }
+    getContratId(id){
+        return http.get(`/affaire/contrat/${id}`);
+    }
+    getContrat(id) {
+        return http.get(`/contrat/${id}`);
+      }
 }
 export default new AffaireService();

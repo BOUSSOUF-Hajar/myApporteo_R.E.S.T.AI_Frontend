@@ -15,7 +15,7 @@ import Contact from "./views/Contact/Contact.js";
 import devenirApp from "./views/DevenirApp/devenirApp.js";
 import profilePage from "./views/ProfilePage/ProfilePage";
 import DevenirAppo from "./views/ApporteurDevenirApp/devenirApp";
-
+import MonAffaire from "./views/MesAffaires/monAffaire"
 //import {DevenirApp} from "./views/ApporteurDevenirApp/devenirApp";
 // pages for this product
 import Accueil from "./views/Accueil/accueil.js";
@@ -37,6 +37,7 @@ ReactDOM.render(
     <Route path="/profile" component={profilePage}/>
     <Route path="/devenirApporteur" component={devenirApp} />
     <Route path="/affaires" component={OrderHistory} />
+    <Route path="/affaire/:id" component={MonAffaire} />
     <Route path="/" component={Accueil}/>
     </Switch>
   </Router>,
