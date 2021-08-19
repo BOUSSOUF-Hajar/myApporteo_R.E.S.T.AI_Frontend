@@ -11,6 +11,7 @@ const initialState = {
 function Popup(props) {
   const [affaire, setAffaire] = useState(initialState);
   const [fileInfo,setFileInfo] = useState([])
+  const [fileInfo1,setFileInfo1] = useState([])
   const [file,setFile] = useState(null)
   const isAdmin = AuthService.isAdmin()
   
@@ -18,8 +19,8 @@ function Popup(props) {
   const isPartenaire = AuthService.isPartenaire()
   const user = localStorage.getItem('user')
   useEffect(() => {
-    
-   AffaireService.getContratId(props.affaire.id).then((response) => {
+    if(!isPartenaire){
+  AffaireService.getAdminContratId(props.affaire.id).then((response) => {
         
           AffaireService.getContrat(response.data).then(
             ((resp)=>{
@@ -29,25 +30,35 @@ function Popup(props) {
            
         
         });
+        AffaireService.getAppContratId(props.affaire.id).then((response) => {
+        
+          AffaireService.getContrat(response.data).then(
+            ((resp)=>{
+              setFileInfo1(resp.data)
+            })
+          )
+           
+        
+        });
+      }
        
       },[fileInfo,setFileInfo,setFile])
      
   function ajouterContrat(){
     const id=props.affaire.id
-    console.log(id)
+    
     if(file==null){
      
     }
     else{
     let formData = new FormData();
   formData.append("file", file)
-  
-     AffaireService.ajouterContrat(id,formData).then(()=>{
+  if(isAdmin){
+     AffaireService.adminAjouterContrat(id,formData).then(()=>{
      
      }
    );
-   
-   AffaireService.getContratId(props.affaire.id).then((response) => {
+   AffaireService.getAdminContratId(props.affaire.id).then((response) => {
         
     AffaireService.getContrat(response.data).then(
       ((resp)=>{
@@ -57,8 +68,57 @@ function Popup(props) {
      
   
   });
+    }
+    if(isApporteur){
+      
+      AffaireService.appAjouterContrat(id,formData).then(()=>{
+      
+      }
+    );
+    AffaireService.getAppContratId(props.affaire.id).then((response) => {
+        
+      AffaireService.getContrat(response.data).then(
+        ((resp)=>{
+          setFileInfo1(resp.data)
+        })
+      )
+       
+    
+    });
+     }
+
+  
   setFile("")
 }
+    }
+    function vender(){
+      confirmAlert({
+        title: 'Confirmation ',
+        message: 'Voulez-vous confirmer cette vente ?',
+        buttons: [
+          {
+            label: 'Oui',
+            onClick:() => { 
+                 
+              AffaireService.affaireVendu(props.affaire.id).then(()=>{
+
+                window.location.href = "/affaires";
+              }
+              )
+            }
+              
+               
+              
+               
+            
+              
+              },
+            {
+              label:'Non',
+              onClick:null,
+            }]
+            });
+      
     }
     function affecter(){
       
@@ -124,9 +184,10 @@ function Popup(props) {
         Apporteur : {props.affaire.apporteur.username}<br/>
         Agence : {props.affaire.partenaire ? props.affaire.partenaire.username: "Pas encore affécté"} <br/>
         Statut :{props.affaire.statut}<br/>
-       
-        Contrat : <a href={fileInfo.url}>{fileInfo.name}</a>
-        {isAdmin && <div> <input
+       {!isPartenaire&& <div>
+        Contrat non signé: <a href={fileInfo.url}>{fileInfo.name}</a>
+        Contrat signé: <a href={fileInfo1.url}>{fileInfo1.name}</a>
+         <input
                         name="contrat"
                         onChange={ uploadJSONFiles}
                             type="file"
@@ -134,9 +195,10 @@ function Popup(props) {
                            /> <br/>
                             <button onClick={ajouterContrat}>Ajouter contrat</button>
         
-                            <button onClick={affecter}>Affacter</button>
-                            </div>
-        }
+                           
+                            </div>}
+        {isAdmin&&  <button onClick={affecter}>Affacter</button>}
+        {isPartenaire&&  <button onClick={vender}>Confirmer la vente</button>}
       </div>
     </div>
   );

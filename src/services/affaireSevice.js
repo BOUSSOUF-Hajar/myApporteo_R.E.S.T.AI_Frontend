@@ -13,9 +13,9 @@ class AffaireService{
     allAffaires(){
         return http.get(`/affaires`,{headers: authHeader() });
     }
-    ajouterContrat(id,file){
+    adminAjouterContrat(id,file){
         const user = JSON.parse(localStorage.getItem('user'));
-        return http.put(`/affaireAddContrat/${id}`,file,
+        return http.put(`/adminAddContrat/${id}`,file,
         {headers: 
             {"Content-Type": "multipart/form-data",
             Authorization: 'Bearer ' + user.accessToken
@@ -23,8 +23,21 @@ class AffaireService{
         }
         );
     }
-    getContratId(id){
-        return http.get(`/affaire/contrat/${id}`);
+    appAjouterContrat(id,file){
+        const user = JSON.parse(localStorage.getItem('user'));
+        return http.put(`/appAddContrat/${id}`,file,
+        {headers: 
+            {"Content-Type": "multipart/form-data",
+            Authorization: 'Bearer ' + user.accessToken
+            }
+        }
+        );
+    }
+    getAdminContratId(id){
+        return http.get(`/admin/contrat/${id}`);
+    }
+    getAppContratId(id){
+        return http.get(`/app/contrat/${id}`);
     }
     getContrat(id) {
         return http.get(`/contrat/${id}`);
@@ -32,6 +45,9 @@ class AffaireService{
     affecterPartenaire(affaire){
       console.log(affaire)
         return http.put(`/addPartenaire`,affaire);
+    }
+    affaireVendu(id){
+        return http.put(`/confirmerVente/${id}`,{headers: authHeader() })
     }
 }
 export default new AffaireService();
