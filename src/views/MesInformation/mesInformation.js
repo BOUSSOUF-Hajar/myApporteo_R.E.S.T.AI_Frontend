@@ -275,13 +275,13 @@ export default class mesInformations extends Component {
                     <h5  style={styles.h5}> Nom de l'utilisateur : </h5>
                     <TextValidator
                      style={{width:"80%",margin:"20px"}}
-                      name="username"
-                      defaultValue={this.state.username}
+                      name="usernamex"
+                      
                       validators={['required','vUsername']}
                       errorMessages={['Ce champ est obligatoire',"Le nom d’utilisateur doit être suppérieur à 3 caractères. "]}
                      type="text"
                         onChange= {this.handleChange}
-                        value={this.state.username}
+                        
                     />
                    
                    
@@ -374,7 +374,7 @@ export default class mesInformations extends Component {
                   </CardBody>
                   <CardFooter  style={styles.cardFooter}>
                   <Button type="submit">Modifier</Button>
-                   {this.state.message?this.state.message:""}
+                  <div> {this.state.message?this.state.message:""}</div>
                   </CardFooter>
                 </ValidatorForm>
               </Card>
