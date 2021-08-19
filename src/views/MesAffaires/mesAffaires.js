@@ -54,9 +54,7 @@ function OrderHistory() {
       }
     }
     const close=() =>{setAffaire(null)}
-    const popup = (row) => {
-        setAffaire(row)  
-    }
+    
    
 
     useEffect(() => {
@@ -173,9 +171,9 @@ function OrderHistory() {
              <TableCell align="right"><input
                   type="button"
                   value="Détail"
-                  onClick={popup}
+                  onClick={()=>setAffaire(row)}
                /></TableCell> 
-              {affaire && <MonAffaire affaire={affaire} popup={close}/>}
+             
               
               </TableRow>
           ))}
@@ -183,9 +181,9 @@ function OrderHistory() {
             
           </Table>
         </TableContainer>
-        
+        {affaire && <MonAffaire affaire={affaire} popup={close}/>}
         </div>
-        <Footer />
+        {!affaire && <Footer />}
         </div>
       );
     

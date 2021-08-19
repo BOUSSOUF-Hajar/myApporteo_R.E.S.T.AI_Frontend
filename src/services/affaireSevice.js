@@ -29,5 +29,9 @@ class AffaireService{
     getContrat(id) {
         return http.get(`/contrat/${id}`);
       }
+    affecterPartenaire(affaire){
+      console.log(affaire)
+        return http.put(`/addPartenaire`,affaire);
+    }
 }
 export default new AffaireService();

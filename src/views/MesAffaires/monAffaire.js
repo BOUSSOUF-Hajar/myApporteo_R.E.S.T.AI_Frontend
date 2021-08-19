@@ -2,22 +2,39 @@ import React from "react";
 import {useContext, useEffect, useState} from 'react'
 import "./style.css";
 import AffaireService from "../../services/affaireSevice";
+import { confirmAlert } from 'react-confirm-alert'; 
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import AuthService from "../../services/authService";
+const initialState = {
+  id:0
+}
 function Popup(props) {
+  const [affaire, setAffaire] = useState(initialState);
   const [fileInfo,setFileInfo] = useState([])
   const [file,setFile] = useState(null)
-
+  const isAdmin = AuthService.isAdmin()
+  
+  const isApporteur = AuthService.isApporteur()
+  const isPartenaire = AuthService.isPartenaire()
+  const user = localStorage.getItem('user')
   useEffect(() => {
-    console.log(props.affaire.id)
+    
    AffaireService.getContratId(props.affaire.id).then((response) => {
         
-          setFileInfo(AffaireService.getContrat(response))
+          AffaireService.getContrat(response.data).then(
+            ((resp)=>{
+              setFileInfo(resp.data)
+            })
+          )
            
         
         });
        
       },[fileInfo,setFileInfo,setFile])
      
-  const ajouterContrat= (id,file)=>{
+  function ajouterContrat(){
+    const id=props.affaire.id
+    console.log(id)
     if(file==null){
      
     }
@@ -29,10 +46,31 @@ function Popup(props) {
      
      }
    );
-   setFile(null)
+   
+   AffaireService.getContratId(props.affaire.id).then((response) => {
+        
+    AffaireService.getContrat(response.data).then(
+      ((resp)=>{
+        setFileInfo(resp.data)
+      })
+    )
+     
+  
+  });
+  setFile("")
+}
+    }
+    function affecter(){
+      
+      setAffaire({id:props.affaire.id})
+      affaire.id=props.affaire.id
+      console.log(affaire)
+        AffaireService.affecterPartenaire(affaire).then(()=>{
+
+        })
     }
     
-  }
+  
   const uploadJSONFiles=  e =>{
     e.preventDefault()
     const file=e.target.files[0]
@@ -83,16 +121,22 @@ function Popup(props) {
         Email : {props.affaire.telephoneProp}<br/>
         Adresse : {props.affaire.adresse}<br/>
         Ville : {props.affaire.ville}<br/>
-        Apporteur : {props.affaire.apporteur}<br/>
+        Apporteur : {props.affaire.apporteur.username}<br/>
         Agence : {props.affaire.partenaire ? props.affaire.partenaire.username: "Pas encore affécté"} <br/>
         Statut :{props.affaire.statut}<br/>
+       
         Contrat : <a href={fileInfo.url}>{fileInfo.name}</a>
-        <input
+        {isAdmin && <div> <input
                         name="contrat"
                         onChange={ uploadJSONFiles}
                             type="file"
                             accept="application/pdf"
-                           /> <br/> <button Onclick={ajouterContrat(props.affaire.id,file)}>Ajouter contrat</button>
+                           /> <br/>
+                            <button onClick={ajouterContrat}>Ajouter contrat</button>
+        
+                            <button onClick={affecter}>Affacter</button>
+                            </div>
+        }
       </div>
     </div>
   );

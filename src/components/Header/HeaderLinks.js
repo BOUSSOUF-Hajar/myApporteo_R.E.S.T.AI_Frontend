@@ -12,7 +12,7 @@ import ListItem from "@material-ui/core/ListItem";
 import Tooltip from "@material-ui/core/Tooltip";
 import { confirmAlert } from 'react-confirm-alert'; 
 import 'react-confirm-alert/src/react-confirm-alert.css';
-
+import MesInfromations from "../../views/MesInformation/mesInformation.js"
 // @material-ui/icons
 import { Help, CloudDownload } from "@material-ui/icons";
 
@@ -32,6 +32,8 @@ export default function HeaderLinks(props) {
   const isPartenaire =AuthService.isPartenaire();
   const isAdmin=AuthService.isAdmin();
   const isLogged=AuthService.isLogged();
+  const [isOpen,setIsOpen]=useState(false)
+  const close=()=>setIsOpen(false)
   const logoutUser = async () =>{
     confirmAlert({
         title: 'Confirmation ',
@@ -67,14 +69,14 @@ export default function HeaderLinks(props) {
       
     
       <ListItem className={classes.listItem}>
-      <Link to={"/partenaire/mes_informations"}>
-      <Button
+      
+      <Button onClick={()=>setIsOpen(true)}
         target="_blank"
         className={classes.headerButton}
       >
         Mon profil
       </Button>
-      </Link>
+      
     </ListItem>
     
     <ListItem className={classes.listItem}>
@@ -135,32 +137,24 @@ export default function HeaderLinks(props) {
           target="_blank"
           className={classes.headerButton}
         >
-          Liste affiares 
+          Affaires afféctés
         </Button>
         </Link>
       </ListItem>
-    <ListItem className={classes.listItem}>
+    <ListItem className={classes.listItem}  >
         <Link to={"/affaires"}>
         <Button
+        hidden
           target="_blank"
           className={classes.headerButton}
         >
-          Mes affaires
+          Affaire non afféctés
         </Button>
         </Link>
         </ListItem>
         
       
-        <ListItem className={classes.listItem}>
-        <Link to={"/apporteur/mes_informations"}>
-        <Button
-          target="_blank"
-          className={classes.headerButton}
-        >
-          Mon profil
-        </Button>
-        </Link>
-      </ListItem>
+        
       
       <ListItem className={classes.listItem}>
       
@@ -192,27 +186,28 @@ export default function HeaderLinks(props) {
         </Button>
         </Link>
       </ListItem>
-    <ListItem className={classes.listItem}>
-        <Link to={"/affaires"}>
-        <Button
-          target="_blank"
-          className={classes.headerButton}
-        >
-          Mes affaires
-        </Button>
-        </Link>
-        </ListItem>
+      <ListItem className={classes.listItem}>
+      <Link to={"/affaires"}>
+      <Button
+        target="_blank"
+        className={classes.headerButton}
+      >
+        Mes affaires
+      </Button>
+      </Link>
+      </ListItem>
         
       
         <ListItem className={classes.listItem}>
-        <Link to={"/apporteur/mes_informations"}>
+        
         <Button
+        onClick={()=>setIsOpen(true)}
           target="_blank"
           className={classes.headerButton}
         >
           Mon profil
         </Button>
-        </Link>
+        
       </ListItem>
       
       <ListItem className={classes.listItem}>
@@ -254,6 +249,7 @@ export default function HeaderLinks(props) {
               <a className={classes.a} href="/contact">Contact</a>
             </ListItem>
           </List> 
+          {isOpen&& <MesInfromations popup={close}/>}
           </List>
      </div>
   );

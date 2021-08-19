@@ -24,6 +24,21 @@ class UserService {
   getAdminBoard() {
     return axios.get('admin', { headers: authHeader() });
   }
+  getCurrentUser(){
+    
+    return http.get('/currentuser', { headers: authHeader() });
+  }
+  update(id,username, email, password,role,adresse,telephone,type,nomAgence,nomSociete,siret,numCarteT,CCI,ville,codePostal,dateDeNaissance){
+    return http.put('/user/update', {
+      id,
+      username,
+      email,
+      password,
+      role,
+      adresse,telephone,type,nomAgence,nomSociete,siret,numCarteT,CCI,ville,codePostal,dateDeNaissance,
+    }
+    );
+  }
 }
 
 export default new UserService();
