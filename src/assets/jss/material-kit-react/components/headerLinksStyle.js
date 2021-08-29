@@ -76,13 +76,14 @@ const headerLinksStyle = (theme) => ({
       border: "1px solid #ffffff",
     },
     [theme.breakpoints.down("sm")]: {
+      fontSize: "13px",
       width: "calc(100% - 30px)",
       marginLeft: "15px",
       marginBottom: "8px",
       marginTop: "8px",
       textAlign: "left",
       "& > span:first-child": {
-        justifyContent: "flex-start",
+        justifyContent: "center",
       },
     },
   },
@@ -108,12 +109,13 @@ const headerLinksStyle = (theme) => ({
     },
     [theme.breakpoints.down("sm")]: {
       width: "calc(100% - 30px)",
+      fontSize: "13px",
       marginLeft: "15px",
       marginBottom: "8px",
       marginTop: "8px",
       textAlign: "left",
       "& > span:first-child": {
-        justifyContent: "flex-start",
+        justifyContent: "center",
       },
     },
   
@@ -141,13 +143,14 @@ const headerLinksStyle = (theme) => ({
       },
       [theme.breakpoints.down("sm")]: {
         width: "calc(100% - 30px)",
+        fontSize: "13px",
         marginLeft: "15px",
         marginBottom: "8px",
         marginTop: "8px",
         textAlign: "left",
   
         "& > span:first-child": {
-          justifyContent: "flex-start",
+          justifyContent: "center",
         },
       },
     
@@ -177,10 +180,10 @@ const headerLinksStyle = (theme) => ({
       marginLeft: "15px",
       marginBottom: "8px",
       marginTop: "8px",
-      textAlign: "left",
-
+      
+      fontSize: "13px",
       "& > span:first-child": {
-        justifyContent: "flex-start",
+        justifyContent: "center",
       },
     },
   },
@@ -191,6 +194,11 @@ const headerLinksStyle = (theme) => ({
     fontWeight:"400",
     "&:hover,&:focus": {
       color:"#ff2602"
+    },
+    [theme.breakpoints.down("xs")]: {
+     
+      fontSize:"calc(100% - 2px)",
+      fontWeight:"calc(100% -40)",
     }
   },
   notificationNavLink: {

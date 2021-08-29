@@ -23,6 +23,7 @@ class AuthService {
   logout() {
     localStorage.removeItem("user");
     localStorage.removeItem("role");
+    axios.get(API_URL + "logout")
   }
 
   register(username, email, password,role,adresse,telephone,type,nomAgence,nomSociete,siret,numCarteT,CCI,ville,codePostal,dateDeNaissance){

@@ -65,7 +65,7 @@ export default function DevenirApp(props) {
         <div>
       <div className={classes.container}>
           <GridContainer justify="center">
-            <GridItem xs={12} sm={12} md={8}>
+            <GridItem xs={12} sm={8} md={8}>
               <Card className={classes[cardAnimaton]}>
                 <form className={classes.form} >
                   <CardHeader className={classes.cardHeader}>

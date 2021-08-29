@@ -6,10 +6,8 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import AuthService from "../../services/authService";
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-
-import Header from "../../components/Header/Header.js";
-import HeaderLinks from "../../components/Header/HeaderLinks.js";
-import Footer from "../../components/Footer/Footer.js";
+import Loading from "../loading/Loading"
+import { withStyles } from '@material-ui/core/styles';
 import GridContainer from "../../components/Grid/GridContainer.js";
 import GridItem from "../../components/Grid/GridItem.js";
 import Button from "../../components/CustomButtons/Button";
@@ -58,20 +56,20 @@ const vpassword = value => {
   }return true;
 };
 
-export default class mesInformations extends Component {
+class mesInformations extends Component {
     constructor(props) {
         super(props);
         this.handleRegister = this.handleRegister.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.state = {
-        user:[],
+        user:null,
         id:0,
           nomAgence:"",
           username: "",
           nomSociete:"",
           email: "",
-          Siret:"",
-          CCI:"",
+          siret:"",
+          cci:"",
           type:"",
           numCarteT:"",
           adresse:"",
@@ -83,7 +81,8 @@ export default class mesInformations extends Component {
           dateDeNaissance:"",
           role:["partenaire"],
           successful: false,
-          message: ""
+          message: "",
+          messageSucc:""
         };
       }
       handleChange = e => {
@@ -102,7 +101,7 @@ export default class mesInformations extends Component {
           this.setState({"telephone":response.data.telephone})
           this.setState({"nomSociete":response.data.nomSociete})
           this.setState({"nomAgence":response.data.nomAgence})
-          this.setState({"CCI":response.data.CCI})
+          this.setState({"cci":response.data.cci})
           this.setState({"numCarteT":response.data.numCarteT})
           this.setState({"siret":response.data.siret})
           this.setState({"type":response.data.type})
@@ -147,30 +146,20 @@ export default class mesInformations extends Component {
             this.state.type,
             this.state.nomAgence,
             this.state.nomSociete,
-            this.state.Siret,
+            this.state.siret,
             this.state.numCarteT,
-            this.state.CCI,
+            this.state.cci,
             this.state.ville,
             this.state.codePostal,
             this.state.dateDeNaissance,
           ).then(
             response => {
-              console.log(response.data)
+             
                this.setState({"message":"Vos Informations sont modifiées ."})
               
             },
             error => {
-              const resMessage =
-                (error.response &&
-                  error.response.data &&
-                  error.response.data.message) ||
-                error.message ||
-                error.toString();
-    
-              this.setState({
-                successful: false,
-                message: resMessage
-              });
+              this.setState({"messageSucc":"Une erreur s'est produite, Veuillez réessayer ."})
             }
           );
         
@@ -178,13 +167,15 @@ export default class mesInformations extends Component {
     
  
   render(){
+     const { classes } = this.props;
   return (
+    
     <div className="popup-box">
       <div className="box">
         <span className="close-icon" onClick={this.props.popup}>x</span>
         
       <div
-        style={styles.pageHeader}
+        className={classes.pageHeader}
         style={{
 
           backgroundColor: "#FFFFFF",
@@ -192,17 +183,18 @@ export default class mesInformations extends Component {
           backgroundPosition: "top center",
         }}
       >
+      {this.state.user?
         <div>
-      <div  style={styles.container}>
+      <div  className={classes.container}>
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={8}>
               <Card >
               
             <ValidatorForm
-                style={styles.form}   onSubmit={this.handleRegister}
+                className={classes.form}   onSubmit={this.handleRegister}
             >
-                  <CardHeader  style={styles.cardHeader}>
-                    <h3   style={styles.h3}>Vos informations :</h3>
+                  <CardHeader  className={classes.cardHeader}>
+                    <h3   className={classes.h3}>Vos informations :</h3>
                     
             
                   </CardHeader>
@@ -211,7 +203,7 @@ export default class mesInformations extends Component {
                   
                   {isPartenaire&&
                   <div>
-                  <h5  style={styles.h5}> Nom de l'agence: </h5>
+                  <h5  className={classes.h5}> Nom de l'agence: </h5>
                     <TextValidator
                    
                       name="nomAgence"
@@ -223,7 +215,7 @@ export default class mesInformations extends Component {
                         validators={['require']}
                         errorMessages={['Ce champ est obligatoire']}
                     />
-                     <h5  style={styles.h5}> Nom de la société : </h5>
+                     <h5  className={classes.h5}> Nom de la société : </h5>
                     <TextValidator
                      style={{width:"80%",margin:"20px"}}
                      defaultValue={this.state.nomAgence}
@@ -235,19 +227,19 @@ export default class mesInformations extends Component {
                         errorMessages={['Ce champ est obligatoire']}
                         
                     />
-                    <h5  style={styles.h5}> Siret : </h5>
+                    <h5  className={classes.h5}> Siret : </h5>
                     <TextValidator
                      style={{width:"80%",margin:"20px"}}
                       name="Siret"
                         type="text"
                         defaultValue={this.state.siret}
                         onChange={this.handleChange}
-                        value={this.state.Siret}
+                        value={this.state.siret}
                         validators={['required']}
                         errorMessages={['Ce champ est obligatoire']}
                         
                     />
-                    <h5  style={styles.h5}> Numéro de carte T : </h5>
+                    <h5  className={classes.h5}> Numéro de carte T : </h5>
                     <TextValidator
                      style={{width:"80%",margin:"20px"}}
                       name="numCarteT"
@@ -258,13 +250,13 @@ export default class mesInformations extends Component {
                         onChange={this.handleChange}
                         value={this.state.numCarteT}
                     />
-                    <h5  style={styles.h5}> Carte T délivrée par le CCI de : </h5>
+                    <h5  className={classes.h5}> Carte T délivrée par le CCI de : </h5>
                     <TextValidator
                      style={{width:"80%",margin:"20px"}}
                       name="CCI"
                      type= "text"
                         onChange={this.handleChange}
-                        value={this.state.CCI}
+                        value={this.state.cci}
                         validators={['required']}
                         errorMessages={['Ce champ est obligatoire']}
                         
@@ -272,11 +264,11 @@ export default class mesInformations extends Component {
                     />
                   </div>
                   }
-                    <h5  style={styles.h5}> Nom de l'utilisateur : </h5>
+                    <h5  className={classes.h5}> Nom de l'utilisateur : </h5>
                     <TextValidator
                      style={{width:"80%",margin:"20px"}}
                       name="usernamex"
-                      
+                      value={this.state.user.username}
                       validators={['required','vUsername']}
                       errorMessages={['Ce champ est obligatoire',"Le nom d’utilisateur doit être suppérieur à 3 caractères. "]}
                      type="text"
@@ -285,7 +277,7 @@ export default class mesInformations extends Component {
                     />
                    
                    
-                    <h5  style={styles.h5}> Adresse : </h5>
+                    <h5  className={classes.h5}> Adresse : </h5>
                     <TextValidator
                       name="adresse"
                       style={{width:"80%",margin:"20px"}}
@@ -297,7 +289,7 @@ export default class mesInformations extends Component {
                         
                      
                     />
-                    <h5  style={styles.h5}> Ville : </h5>
+                    <h5  className={classes.h5}> Ville : </h5>
                     <TextValidator
                       name="ville"
                       style={{width:"80%",margin:"20px"}}
@@ -310,7 +302,7 @@ export default class mesInformations extends Component {
                         
                   
                     />
-                    <h5  style={styles.h5}> Code postal : </h5>
+                    <h5  className={classes.h5}> Code postal : </h5>
                     <TextValidator
                       name="codePostal"
                       style={{width:"80%",margin:"20px"}}
@@ -322,7 +314,7 @@ export default class mesInformations extends Component {
                         
                       
                     />
-                     <h5  style={styles.h5}> Email :</h5>
+                     <h5  className={classes.h5}> Email :</h5>
                     <TextValidator
                       name="email"
                       style={{width:"80%",margin:"20px"}}
@@ -335,8 +327,9 @@ export default class mesInformations extends Component {
                         
                        
                     />
-                     <h5  style={styles.h5}> Téléphone :</h5>
+                     <h5  className={classes.h5}> Téléphone :</h5>
                     <TextValidator
+                    
                       name="telephone"
                       style={{width:"80%",margin:"20px"}}
                         type="phone"
@@ -346,7 +339,7 @@ export default class mesInformations extends Component {
                         errorMessages={['Ce champ est obligatoire']}
                         
                     />
-                   <h5  style={styles.h5}> Mot de passe :
+                   <h5  className={classes.h5}> Mot de passe :
                    </h5>
                     <TextValidator
                      style={{width:"80%",margin:"20px"}}
@@ -359,7 +352,7 @@ export default class mesInformations extends Component {
                         errorMessages={['Ce champ est obligatoire','Le mot de passe doit être compris entre 6 et 40 caractères.']}
                         
                         />
-                    <h5  style={styles.h5}>Confirmation du mot de passe :</h5>
+                    <h5  className={classes.h5}>Confirmation du mot de passe :</h5>
                      <TextValidator
                       style={{width:"80%",margin:"20px"}}
                       name="passwordConf"
@@ -372,9 +365,10 @@ export default class mesInformations extends Component {
                         
                     />
                   </CardBody>
-                  <CardFooter  style={styles.cardFooter}>
-                  <Button type="submit">Modifier</Button>
-                  <div> {this.state.message?this.state.message:""}</div>
+                  <CardFooter  className={classes.cardFooter}>
+                  <Button type="submit" className={classes.button}>Modifier</Button>
+                  <div className={classes.message}> {this.state.message?this.state.message:""}</div>
+                  <div className={classes.messageSucc}> {this.state.messageSucc?this.state.messageSucc:""}</div>
                   </CardFooter>
                 </ValidatorForm>
               </Card>
@@ -382,12 +376,14 @@ export default class mesInformations extends Component {
           </GridContainer>
         </div>
         </div>
+         :<Loading/>}
         </div>
         </div>
         
       </div>
+               
  
   );
   }
 };
- 
+export default withStyles(styles)(mesInformations);

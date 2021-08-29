@@ -36,7 +36,7 @@ export default function Accueil(props) {
           <GridContainer className={classes.container} style={{textAlign:"center"}}>
             <GridItem>
               <div className={classes.brand}>
-                <h1 className={classes.title}></h1>
+              
                 <h3 className={classes.subtitle}>
                 <Done  className={classes.Iconsdone}/>   Vous vendez ou vous connaissez quelqu'un qui <span className={classes.subtitle1}>vend un bien immobilier</span> dans votre entourage ?
                 </h3>
@@ -114,7 +114,7 @@ export default function Accueil(props) {
             }}> 
             
               </GridItem>
-              <GridItem  xs={12} sm={12} md={6} lg={6}
+              <GridItem  xs={12} sm={10} md={6} lg={6}
              >
                <div className={classes.grid}>
                La prime va de <span className={classes.span}>500€ à 10 000€ </span> suivant le montant de la commission perçue par l'agence.

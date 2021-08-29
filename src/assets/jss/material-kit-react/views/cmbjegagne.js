@@ -1,5 +1,5 @@
 import { container } from "../../material-kit-react.js";
-const combientStyle={
+const combientStyle=(theme)=>({
 container:{
     padding:"10px",
     margin:"30px 0px",
@@ -12,6 +12,12 @@ h1:{
     margin:"40px",
     color:"#0D1938",
     fontWeight:"600",
+    [theme.breakpoints.down("xs")]: {
+        fontSize:"35px",
+        margin:"40px 0px",
+         fontWeight:"calc(100% - 40)"
+          
+        }
 },
 grid:{
     color:"#0D1938",
@@ -32,36 +38,57 @@ gridTitle:{
 },
 h2:{
     margin:"50px",
-    fontSize:"30px",
+    color:"#ff2602",
+    fontSize:"35px",
     fontWeight:"600",
-    color:"#ff2602"
+    [theme.breakpoints.down("sm")]: {
+        margin:"50px 0px",
+        fontSize:"30px",
+         fontWeight:"calc(100% - 40)"
+          
+        }
 },
 divs:{
     textAlign:"left",
-    fontWeight:"400",
-    fontSize:"20px",
+    fontWeight:"300",
+    fontSize:"23px",
     padding:"60px",
+    [theme.breakpoints.down("sm")]: {
+        padding:"20px 0px",
+        
+         
+          
+        }
+    
     
 },
 
 button:{
     boxShadow:
-        "0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)",
-    color:"white",
-    border:"1px solid #ffffff",
-    fontWeight:"500",
-    borderRadius:'40px',
-    margin:"30px 30px 0px 0px",
-    fontSize:"20px",
-    background:"#ff2602",
-    "&:hover":{
-      background:"white",
-      border: "1px solid #ff2602",
-      color:"#ff2602"
-    }
+    "0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)",
+color:"white",
+border:"1px solid #ffffff",
+fontWeight:"450",
+borderRadius:'40px',
+margin:"40px 40px",
+
+padding:"10px 10px",
+background:"#ff2602",
+"&:hover,&:focus":{
+  background:"white",
+  border: "1px solid #ff2602",
+  color:"#ff2602",
+  
+},
+[theme.breakpoints.down("xs")]: {
+ 
+    fontSize:"calc(100% - 3px)",
+   
+    
+  }
   },
   span:{
     
   },
-}
+})
 export default combientStyle;

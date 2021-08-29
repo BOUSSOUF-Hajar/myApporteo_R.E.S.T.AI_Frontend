@@ -71,7 +71,7 @@ const handleSubmit = async e =>{
               window.location.href = "/affaires";
              },
              error => 
-               setMessage("Une erreur a été produite"),
+               setMessage("Une erreur s'est produite, Veuillez réessayer ."),
                
              
            );
@@ -116,7 +116,7 @@ const handleSubmit = async e =>{
         <div>
       <div className={classes.container}>
           <GridContainer justify="center">
-            <GridItem xs={12} sm={12} md={8}>
+            <GridItem xs={12} sm={8} md={8}>
               <Card className={classes[cardAnimaton]}>
                 <form className={classes.form} onSubmit={handleSubmit}>
                   <CardHeader className={classes.cardHeader}>
@@ -139,11 +139,12 @@ const handleSubmit = async e =>{
                    
                    
                    
-                   <input name="nomPrenom"  onChange={handleChangeInput}  
+                   <input name="nomPrenom" className={classes.input}  onChange={handleChangeInput}  
                         value={affaire.nomPrenom} type="text"/>
                     
                      <h5 className={classes.h5}> Adresse du bien : </h5>
                     <input 
+                    className={classes.input}
                         name="adresse"
                         onChange={handleChangeInput}
                         value={affaire.adresse}
@@ -151,7 +152,7 @@ const handleSubmit = async e =>{
 
                      <h5 className={classes.h5}> Ville : </h5>
                     <input
-              
+                      className={classes.input}
                       id="Ville"
                         name="ville"
                         onChange={handleChangeInput}
@@ -162,7 +163,7 @@ const handleSubmit = async e =>{
                     <input
               
                       id="codePostal"
-                     
+                      className={classes.input}
                         name="codePostal"
                         onChange={handleChangeInput}
                         value={affaire.codePostal}
@@ -170,7 +171,7 @@ const handleSubmit = async e =>{
                     />
                      <h5 className={classes.h5}> Email du propiétaire : </h5>
                     <input
-              
+                      className={classes.input}
                       id="emailProp"
                        name="emailProp"
                         onChange={handleChangeInput}
@@ -181,7 +182,7 @@ const handleSubmit = async e =>{
                     />
                      <h5 className={classes.h5}> Téléphone du propriétaire :</h5>
                     <input
-                      
+                      className={classes.input}
                       id="phone"
                       
                         type="phone"

@@ -8,6 +8,7 @@ import {Email,Phone} from "@material-ui/icons";
 import People from "@material-ui/icons/People";
 // core components
 import Form from "react-validation/build/form";
+import { withStyles } from '@material-ui/core/styles';
 import { ValidatorForm, TextValidator,SelectValidator} from 'react-material-ui-form-validator';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
@@ -59,12 +60,13 @@ const vpassword = value => {
   }return true;
 };
 
-export default class RegisterApporteur extends Component {
+let timer = null;
+class RegisterApporteur extends Component {
   constructor(props) {
     super(props);
     this.handleRegister = this.handleRegister.bind(this);
     this.handleDropDownChange = this.handleDropDownChange.bind(this);
-  
+    
     this.handleChange = this.handleChange.bind(this);
     this.state = {
       nomAgence:"",
@@ -84,7 +86,8 @@ export default class RegisterApporteur extends Component {
       dateDeNaissance:"",
       role:["apporteur"],
       successful: false,
-      message: []
+      message: [],
+      cardAnimation:"cardHidden"
     };
   }
 
@@ -93,9 +96,9 @@ export default class RegisterApporteur extends Component {
     
     this.setState({[name]: value});
   }
+  
   componentDidMount() {
-    // custom rule will have name 'isPasswordMatch'
-    
+    timer = setTimeout(() => { this.setState({cardAnimation:""})}, 700)
     ValidatorForm.addValidationRule('require', (value) => {
       if (!value) {
         return false;
@@ -186,16 +189,10 @@ handleDropDownChange(event) {
           window.location.href = "/apporteur/connexion";
         },
         error => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-
+        
           this.setState({
-            successful: false,
-            message: resMessage
+            
+            message: "Une erreur s'est produite, Veuillez réessayer"
           });
         }
       );
@@ -203,6 +200,7 @@ handleDropDownChange(event) {
   }
 
   render(){
+    const { classes } = this.props;
   return (
     <div>
       <div>
@@ -220,7 +218,7 @@ handleDropDownChange(event) {
       </div>
       
       <div
-        style={styles.pageHeader}
+        className={classes.pageHeader}
         style={{
 
           backgroundColor: "#FFFFFF",
@@ -229,22 +227,22 @@ handleDropDownChange(event) {
         }}
       >
         <div>
-      <div  style={styles.container}>
+      <div  className={classes.container}>
           <GridContainer justify="center">
-            <GridItem xs={12} sm={12} md={8}>
-              <Card >
+            <GridItem xs={12} sm={8} md={8}>
+              <Card  className={classes[this.state.cardAnimation]}>
               
             <ValidatorForm
-                style={styles.form}   onSubmit={this.handleRegister}
+                className={classes.form}   onSubmit={this.handleRegister}
             >
-                  <CardHeader  style={styles.cardHeader}>
-                    <h3   style={styles.h3}>Inscription</h3>
+                  <CardHeader  className={classes.cardHeader}>
+                    <h3   className={classes.h3}>Inscription</h3>
                     
             
                   </CardHeader>
                  
                   <CardBody>
-                  <h5  style={styles.h5}> Vous ètes :</h5>
+                  <h5  className={classes.h5}> Vous ètes :</h5>
                   <SelectValidator name="type" value={this.state.type} style={{width:"80%",margin:"20px"}}
                   onChange={this.handleDropDownChange}>
                   <MenuItem value="Un particulier">Un particulier</MenuItem>
@@ -252,7 +250,7 @@ handleDropDownChange(event) {
                  
        
                      </SelectValidator>
-                    <h5  style={styles.h5}> Nom de l'utilisateur : </h5>
+                    <h5  className={classes.h5}> Nom de l'utilisateur : </h5>
                     <TextValidator
                     style={{width:"80%",margin:"20px"}}
                       name="username"
@@ -262,7 +260,7 @@ handleDropDownChange(event) {
                         onChange= {this.handleChange}
                         value={this.state.username}
                     />
-                    <h5  style={styles.h5}> Date de naissance : </h5>
+                    <h5  className={classes.h5}> Date de naissance : </h5>
                            
                     <TextValidator
                       name="dateDeNaissance"
@@ -273,7 +271,7 @@ handleDropDownChange(event) {
                         value={this.state.dateDeNaissance}
                        
                     />
-                    <h5  style={styles.h5}> Ville de naissance : </h5>
+                    <h5  className={classes.h5}> Ville de naissance : </h5>
                     <TextValidator
                       name="ville"
                       style={{width:"80%",margin:"20px"}}
@@ -287,7 +285,7 @@ handleDropDownChange(event) {
                   
                     />
                     
-                     <h5  style={styles.h5}> Email :</h5>
+                     <h5  className={classes.h5}> Email :</h5>
                     <TextValidator
                       name="email"
                       style={{width:"80%",margin:"20px"}}
@@ -300,7 +298,7 @@ handleDropDownChange(event) {
                         
                        
                     />
-                     <h5  style={styles.h5}> Téléphone :</h5>
+                     <h5  className={classes.h5}> Téléphone :</h5>
                     <TextValidator
                       name="telephone"
                       style={{width:"80%",margin:"20px"}}
@@ -311,7 +309,7 @@ handleDropDownChange(event) {
                         errorMessages={['Ce champ est obligatoire']}
                         
                     />
-                   <h5  style={styles.h5}> Mot de passe :
+                   <h5  className={classes.h5}> Mot de passe :
                    </h5>
                     <TextValidator
                     style={{width:"80%",margin:"20px"}}
@@ -324,7 +322,7 @@ handleDropDownChange(event) {
                         errorMessages={['Ce champ est obligatoire','Le mot de passe doit être compris entre 6 et 40 caractères.']}
                         
                         />
-                    <h5  style={styles.h5}>Confirmation du mot de passe :</h5>
+                    <h5  className={classes.h5}>Confirmation du mot de passe :</h5>
                      <TextValidator
                      style={{width:"80%",margin:"20px"}}
                       name="passwordConf"
@@ -337,16 +335,18 @@ handleDropDownChange(event) {
                         
                     />
                   </CardBody>
-                  <CardFooter  style={styles.cardFooter}>
-                  <Button type="submit" style={styles.button}>S'inscrire</Button>
+                  <CardFooter  className={classes.cardFooter}>
+                  <Button type="submit" className={classes.button}>S'inscrire</Button>
                  
                   </CardFooter>
+                  <h4 style={{color:"red"}}>
+                  {this.state.message}</h4>
                 </ValidatorForm>
               </Card>
             </GridItem>
           </GridContainer>
         </div>
-        {this.state.message}
+        
         </div>
         </div>
 <Footer />
@@ -356,3 +356,4 @@ handleDropDownChange(event) {
   );
                     }
 }
+export default withStyles(styles)(RegisterApporteur);

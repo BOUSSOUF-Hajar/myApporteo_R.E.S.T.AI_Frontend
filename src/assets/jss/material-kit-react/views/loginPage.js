@@ -1,7 +1,12 @@
 import { rgbToHex } from "@material-ui/core";
 import { container } from "../../../jss/material-kit-react.js";
-
-const signupPageStyle = {
+import {
+  primaryColor,
+  dangerColor,
+  successColor,
+  defaultFont,
+} from "../../../jss/material-kit-react";
+const signupPageStyle =(theme) =>({
   container: {
     ...container,
     zIndex: "2",
@@ -11,18 +16,56 @@ const signupPageStyle = {
     color: "#FFFFFF",
     paddingBottom: "100px",
   },
+  message:{
+    color:"blue",
+    fontSize:"15px",
+    padding:"10px",
+
+  },
+  messageSucc:{
+    color:"red",
+    fontSize:"15px",
+    padding:"10px",
+
+  },
+  input:{
+    padding:"10px",
+    margin:"20px 0px",
+    border:"none",
+    fontSize:"15px",
+  borderBottom:"1px solid #888",
+  width:"90%",
+  "&:focus":{
+    
+      borderBottom: "2px solid #ff2602"
+      
+  }
+  },
   h5:{
     color:"#009fff",
-    fontWeight:"400",
-    fontSize:"15px",
+    fontWeight:"460",
+    fontSize:"20px",
     "&:focus":{
       color:"#009fff",
+      
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize:"15px",
+      
+      fontWeight:"calc(100% - 60)",
+      
     }
   },
   h3:{
     color:"#000000",
     fontWeight:"500",
-    fontSize:"30px"
+    fontSize:"30px",
+    [theme.breakpoints.down("xs")]: {
+      fontSize:"24px",
+      
+      fontWeight:"calc(100% - 60)",
+      
+    }
   },
   cardHidden: {
     opacity: "0",
@@ -115,10 +158,18 @@ const signupPageStyle = {
     
     padding:"10px 10px",
     background:"#ff2602",
-    "&:hover":{
+    "&:hover,&:focus":{
       background:"white",
       border: "1px solid #ff2602",
-      color:"#ff2602"
+      color:"#ff2602",
+      
+    },
+    [theme.breakpoints.down("xs")]: {
+     
+      fontSize:"calc(100% - 3px)",
+     
+      margin:"5px 20px 0px 0px",
+      
     }
   },
   buttonInsc:{
@@ -132,12 +183,19 @@ const signupPageStyle = {
     
     background:"white",
     padding:"10px 10px",
-    "&:hover":{
+    "&:hover,&:focus":{
       background:"#ff2602",
       border: "1px solid #ff2602",
       color:"white"
+    },
+    [theme.breakpoints.down("xs")]: {
+     
+      fontSize:"calc(100% - 3px)",
+     
+      margin:"5px 20px 0px 0px",
+      
     }
   },
-};
+});
 
 export default signupPageStyle;

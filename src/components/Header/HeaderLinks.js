@@ -131,27 +131,29 @@ export default function HeaderLinks(props) {
         <>
          
         <List className={classes.list}>
+        <ListItem style={{visibility:"hidden"}} className={classes.listItem}  >
+        <Link to={"/affaires"}>
+        <Button
+        
+        display="none"
+          target="_blank"
+          className={classes.headerButton}
+        >
+          Affaires
+        </Button>
+        </Link>
+        </ListItem>
         <ListItem className={classes.listItem}>
         <Link to={"/affaires"}>
         <Button
           target="_blank"
           className={classes.headerButton}
         >
-          Affaires afféctés
+          Liste d'affaires
         </Button>
         </Link>
       </ListItem>
-    <ListItem className={classes.listItem}  >
-        <Link to={"/affaires"}>
-        <Button
-        hidden
-          target="_blank"
-          className={classes.headerButton}
-        >
-          Affaire non afféctés
-        </Button>
-        </Link>
-        </ListItem>
+    
         
       
         

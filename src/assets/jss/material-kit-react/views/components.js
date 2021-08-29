@@ -2,8 +2,15 @@ import { transform } from "typescript";
 import { container } from "../../material-kit-react.js";
 
 
-const componentsStyle = {
-  container,
+const componentsStyle =(theme) =>( {
+  container:{
+      container,
+      [theme.breakpoints.down("xs")]: {
+     
+        
+      }
+     
+  },
   brand: {
     color: "#FFFFFF",
     textAlign: "left",
@@ -20,12 +27,25 @@ const componentsStyle = {
     fontSize: "35px",
     fontWeight:"700",
     maxWidth: "650px",
+    [theme.breakpoints.down("xs")]: {
+     
+      fontSize:"calc(25px)",
+      fontWeight:"calc(100% - 60)",
+      
+    }
     
   },
   h1:{
     color:"#ff2602",
-    fontSize:"50px",
-    fontWeight:"700",
+    
+    margin:"40px",
+    fontWeight:"600",
+    [theme.breakpoints.down("xs")]: {
+        fontSize:"35px",
+        margin:"40px 0px",
+         fontWeight:"calc(100% - 40)"
+          
+        }
   },
   contents:{
   margin:"100px 0px",
@@ -76,7 +96,7 @@ full:{
     fontSize:"22px",
     padding:"50px 10px",
     display:"block",
-    margin:"10px 10px 0px 0px",
+    margin:"5px 5px 0px 0px",
     width:"auto",
     textAlign: "center",
     borderRadius:"10px",
@@ -94,16 +114,24 @@ full:{
         "0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)",
     color:"white",
     border:"1px solid #ffffff",
-    fontWeight:"500",
-    padding:"15px 20px",
-    borderRadius:'30px',
+    fontWeight:"450",
+    borderRadius:'40px',
     margin:"30px 30px 0px 0px",
-    fontSize:"16px",
+    
+    padding:"10px 10px",
     background:"#ff2602",
-    "&:hover":{
-      background:"transparent",
+    "&:hover,&:focus":{
+      background:"white",
       border: "1px solid #ff2602",
-      color:"#ff2602"
+      color:"#ff2602",
+      
+    },
+    [theme.breakpoints.down("xs")]: {
+     
+      fontSize:"calc(100% - 3px)",
+     
+      margin:"5px 20px 0px 0px",
+      
     }
   },
   
@@ -112,6 +140,12 @@ full:{
     fontSize: "30px",
     fontWeight:"700",
     maxWidth: "650px",
+    [theme.breakpoints.down("xs")]: {
+     
+      fontSize:"calc(25px)",
+      fontWeight:"calc(100% - 60)",
+      
+    }
     
   },
   main: {
@@ -131,6 +165,6 @@ full:{
   textCenter: {
     textAlign: "center",
   },
-};
+});
 
 export default componentsStyle;

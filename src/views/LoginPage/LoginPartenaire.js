@@ -9,6 +9,7 @@ import {Email,Phone} from "@material-ui/icons";
 // core components
 import Header from "../../components/Header/Header.js";
 import HeaderLinks from "../../components/Header/HeaderLinks.js";
+import { withStyles } from '@material-ui/core/styles';
 import Footer from "../../components/Footer/Footer.js";
 import GridContainer from "../../components/Grid/GridContainer.js";
 import GridItem from "../../components/Grid/GridItem.js";
@@ -37,7 +38,10 @@ const vpassword = value => {
     return false;
   }return true;
 };
-export default class LoginApp extends Component {
+
+let timer = null;
+class LoginApp extends Component {
+  
   constructor(props) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
@@ -47,16 +51,22 @@ export default class LoginApp extends Component {
       telephone:"",
       password: "",
       successful: false,
-      message: ""
+      message: "",
+      cardAnimation:"cardHidden"
     };
   }
-
+  
   handleChange = e => {
     const {name, value} = e.currentTarget;
     this.setState({[name]: value});
+    
+     
+    
   }
   componentDidMount() {
+    
     // custom rule will have name 'isPasswordMatch'
+    timer = setTimeout(() => { this.setState({cardAnimation:""})}, 700)
     ValidatorForm.addValidationRule('require', (value) => {
       if (!value) {
         return false;
@@ -82,22 +92,17 @@ handleLogin(e) {
        window.location.href = "/";
       },
       error => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-
+        
         this.setState({
-          loading: false,
-          message: resMessage
+          
+          message: "Une erreur s'est produite, Veuillez réessayer"
         });
       }
     );
   
 }
   render (){
+    const { classes } = this.props;
     return (
     <div>
        <div>
@@ -114,22 +119,22 @@ handleLogin(e) {
       />
       </div>
       <div
-        style={styles.pageHeader}
+       className={classes.pageHeader}
         style={{
           backgroundColor: "#FFFFFF",
           backgroundSize: "cover",
           backgroundPosition: "top center",
         }}
       >
-        <div style={styles.container}>
+        <div className={classes.container}>
           <GridContainer justify="center">
-            <GridItem xs={12} sm={12} md={6}>
-              <Card>
+            <GridItem xs={12} sm={8} md={6}>
+              <Card className={classes[this.state.cardAnimation]}>
               <ValidatorForm
-                style={styles.form}   onSubmit={this.handleLogin}
+                className={classes.form}   onSubmit={this.handleLogin}
             >
-                  <CardHeader  style={styles.cardHeader}>
-                    <h3   style={styles.h3}>Connexion</h3>
+                  <CardHeader  className={classes.cardHeader}>
+                    <h3   className={classes.h3}>Connexion</h3>
                     
             
                   </CardHeader>
@@ -137,7 +142,7 @@ handleLogin(e) {
                   <CardBody>
                  
                     
-                  <h5  style={styles.h5}> Email :</h5>
+                  <h5  className={classes.h5}> Email :</h5>
                     <TextValidator
                     style={{width:"100%"}}
                       name="username"
@@ -149,7 +154,7 @@ handleLogin(e) {
                         
                        
                     />
-                   <h5  style={styles.h5}> Mot de passe :
+                   <h5  className={classes.h5}> Mot de passe :
                    </h5>
                     <TextValidator
                     style={{width:"100%"}}
@@ -164,14 +169,15 @@ handleLogin(e) {
                         />
                    
                   </CardBody>
-                  <CardFooter  style={styles.cardFooter}>
-                  <Button type="submit" target="_blank" size="lg" style={styles.button}>Se connecter</Button>
+                  <CardFooter  className={classes.cardFooter}>
+                  <Button type="submit" target="_blank" size="lg" className={classes.button}>Se connecter</Button>
                   <Link to={"/partenaire/inscription"}>
-                  <Button  style={styles.buttonInsc} target="_blank" size="lg">
+                  <Button  className={classes.buttonInsc} target="_blank" size="lg">
                       S'inscrire
                     </Button></Link>
                   </CardFooter>
-                  {this.state.message}
+                  <h4 style={{color:"red"}}>
+                  {this.state.message}</h4>
                 </ValidatorForm>
               </Card>
             </GridItem>
@@ -184,3 +190,4 @@ handleLogin(e) {
     </div>
       )  }
 }
+export default withStyles(styles)(LoginApp);

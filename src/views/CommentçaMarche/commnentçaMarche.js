@@ -35,46 +35,46 @@ export default function Comment(props) {
             <div className={classes.container}>
                 <h1 className={classes.h1}>Comment ça marche ?</h1>
             <GridContainer >
-            <GridItem  className={classes.gridTitle} xs={12} sm={12} md={6} lg={6}>
+            <GridItem  className={classes.gridTitle} xs={12} sm={6} md={6} lg={6}>
             <h2 className={classes.h2}>Vous connaissez quelqu'un qui souhaite vendre son bien immobilier.</h2>
                 </GridItem>
-                <GridItem className={classes.grid} xs={12} sm={12} md={6} lg={6}>
+                <GridItem className={classes.grid} xs={12} sm={6} md={6} lg={6}>
                     
                    <div className={classes.divs}> Ca peut même être vous !
                     Vous pouvez être un particulier, un professionnel ou un commerçant etc...</div>
                 </GridItem>
-                <GridItem className={classes.grid} xs={12} sm={12} md={6} lg={6}>
+                <GridItem className={classes.grid} xs={12} sm={6} md={6} lg={6}>
                 <div className={classes.divs}>-Nom,<br/>-Prénom <br/>
                 -Adresse du bien à vendre (ville ou adresse exacte)<br/>
                 -Type de bien<br/>
                 -Numéro de téléphone du vendeur<br/>
                 -Adresse mail du vendeu</div>
                 </GridItem>
-                <GridItem className={classes.gridTitle} style={{background:"#009fff"}} xs={12} sm={12} md={6} lg={6}>
+                <GridItem className={classes.gridTitle} style={{background:"#009fff"}} xs={12} sm={6} md={6} lg={6}>
                 <h2 className={classes.h2}>Vous nous communiquez
                 les coordonnées du vendeur.</h2>
                 </GridItem>
-                <GridItem className={classes.gridTitle} xs={12} sm={12} md={6} lg={6}>
+                <GridItem className={classes.gridTitle} xs={12} sm={6} md={6} lg={6}>
                 <h2 className={classes.h2}>Nous sélectionnons la meilleure agence parmi nos partenaires en tenant compte des caractéristiques du bien pour augmenter les chances de vendre au meilleur prix.
                 </h2>
                 </GridItem>
-                <GridItem className={classes.grid} xs={12} sm={12} md={6} lg={6}>
+                <GridItem className={classes.grid} xs={12} sm={6} md={6} lg={6}>
                 <div className={classes.divs}>Nous comparons les agences des grands groupes ainsi que les indépendants. Voir notre methode de selection. Vous signez un contrat d'apporteur d'affaires avec l'agence via votre compte client.
 Vous pourrez suivre toutes les étapes de la commercialisation via votre espace client.
 (signature du mandat, signature promesse de vente, signature vente définitive</div>
                 </GridItem>
-                <GridItem className={classes.grid} xs={12} sm={12} md={6} lg={6}>
+                <GridItem className={classes.grid} xs={12} sm={6} md={6} lg={6}>
                 <div className={classes.divs}>L’argent est versé sur le compte de l'apporteur dans les 15 jours suivant la vente définitive.
 Dans le respect de la réglementation fiscale.</div>
                 </GridItem>
-                <GridItem className={classes.gridTitle} style={{background:"#009fff"}} xs={12} sm={12} md={6} lg={6}>
+                <GridItem className={classes.gridTitle} style={{background:"#009fff"}} xs={12} sm={6} md={6} lg={6}>
                     <h2 className={classes.h2}>Le bien est vendu !
 L'agence sélectionnée vous verse une prime allant de 500€ à 10 000€.</h2>
                 </GridItem>
-                <GridItem className={classes.gridTitle} xs={12} sm={12} md={6} lg={6}>
+                <GridItem className={classes.gridTitle} xs={12} sm={6} md={6} lg={6}>
                  <h2 className={classes.h2}> Le vendeur peut noter la prestation de l'agence sélectionnée.</h2>
                 </GridItem>
-                <GridItem className={classes.grid} xs={12} sm={12} md={6} lg={6}>
+                <GridItem className={classes.grid} xs={12} sm={6} md={6} lg={6}>
                     <div className={classes.divs}>Grâce à notre formulaire de satisfaction, le vendeur pourra noter la prestation de l'agence.
                         </div>
                         </GridItem>

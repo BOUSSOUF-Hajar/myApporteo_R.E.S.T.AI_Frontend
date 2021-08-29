@@ -13,7 +13,7 @@ import {
 } from "../../../jss/material-kit-react.js";
 
 
-const headerStyle = {
+const headerStyle = (theme)=>({
   appBar: {
     display: "flex",
     border: "0",
@@ -66,6 +66,11 @@ const headerStyle = {
       color: "#000000",
       background: "transparent",
     },
+    [theme.breakpoints.down("xs")]: {
+    fontSize:"calc(27px)",
+     fontWeight:"calc(100% - 40)"
+      
+    }
   },
   appResponsive: {
     margin: "20px 10px",
@@ -149,6 +154,6 @@ const headerStyle = {
     paddingLeft: "0",
     ...transition,
   },
-};
+});
 
 export default headerStyle;

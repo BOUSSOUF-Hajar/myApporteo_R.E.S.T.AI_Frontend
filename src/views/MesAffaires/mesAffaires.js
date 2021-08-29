@@ -1,9 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react'
 import AuthService from "../../services/authService";
-
+import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
+import ReceiptIcon from '@material-ui/icons/Receipt';
+import IconButton from '@material-ui/core/IconButton';
 import TableCell from '@material-ui/core/TableCell';
 import Footer from "../../components/Footer/Footer.js";
 import TableContainer from '@material-ui/core/TableContainer';
@@ -12,25 +14,47 @@ import TableRow from '@material-ui/core/TableRow';
 import Header from "../../components/Header/Header.js";
 import HeaderLinks from "../../components/Header/HeaderLinks.js";
 import Paper from '@material-ui/core/Paper';
+import Loading from "../loading/Loading.js";
+import MenuItem from '@material-ui/core/MenuItem';
 import MonAffaire from "./monAffaire";
 import AffaireService from "../../services/affaireSevice";
 import { confirmAlert } from 'react-confirm-alert'; 
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import Button from "../../components/CustomButtons/Button.js";
 import {Link} from 'react-router-dom'
-const useStyles = makeStyles({
+import affaireSevice from '../../services/affaireSevice';
+const useStyles = makeStyles((theme)=>({
     container:{
-        margin:25,
+      padding:"25px",
+        margin:"25px 0px",
+        textAlign:"center"
+       
     },
     table: {
-    
+      margin:"25px",
+      boxShadow:"10px 5px 5px gris",
       minWidth: 700,
+      maxWidth:1300
     },
-  });
+    h4:{
+      fontWeight:"400",
+      color:"#ff2602",
+        fontSize:"25px",
+        [theme.breakpoints.down("xs")]: {
+     
+          fontSize:"calc(20px)",
+         fontWeight:"360"
+          
+        }
+    },
+
+  }));
 
 function OrderHistory() {
     const classes = useStyles();
+    const [statut,setStatut]=useState("Vendu");
     const [isOpen, setIsOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [affaires,setAffaires] = useState([])
     const [affaire,setAffaire] = useState(null)
     const isAdmin = AuthService.isAdmin()
@@ -39,20 +63,7 @@ function OrderHistory() {
     const user = localStorage.getItem('user')
     const [fileInfo,setFileInfo] = useState([])
    
-    const ajouterContrat=async (id,file)=>{
-      if(file==null){
-
-      }
-      else{
-      let formData = new FormData();
-    formData.append("file", file)
     
-      AffaireService.ajouterContrat(id,formData).then(()=>{
-        
-       }
-     );
-      }
-    }
     const close=() =>{setAffaire(null)}
     
    
@@ -63,7 +74,7 @@ function OrderHistory() {
                 if(isApporteur){
                    AffaireService.mesAffaireAppo().then(
                     response => {
-                     
+                        setIsLoading(false)
                         setAffaires(response.data)
                        })
                    
@@ -71,23 +82,26 @@ function OrderHistory() {
                 else if(isPartenaire){
                     AffaireService.mesAffairePart().then(
                         response => {
-                         
+                          setIsLoading(false)
                             setAffaires(response.data)
                            })
                 }
                 else if(isAdmin){
                     AffaireService.allAffaires().then(
                         response => {
-                         
+                          setIsLoading(false)
                             setAffaires(response.data)
                            })
                 }
             }
             getHistory()
+            
         }
     },[user,affaires,setAffaires])
     
-  
+    const handleChange = (event) => {
+      setStatut(event.target.value);
+    };
     const uploadJSONFiles=  e =>{
       e.preventDefault()
       const file=e.target.files[0]
@@ -127,8 +141,9 @@ function OrderHistory() {
           });
       setFile(file)
     }
+   
     return (
-        <div>
+        <div style={{ background:"white"}}>
         
         <Header
        
@@ -142,47 +157,74 @@ function OrderHistory() {
           }}
          
         />
-      
+    
         <div className={classes.container}>
+      <h4 className={classes.h4}> {affaires.length==0 ? "Vous n'avez aucun affaire ": "Le nombre total des affaires  : " }{affaires.length}</h4>
+        <Select name="statut"  value={statut}  style={{width:"80%",margin:"20px"}}
+                  onChange={handleChange}>
+
+                  <MenuItem value="En vente"> Affaires afféctés</MenuItem>
+                  
+                  {!isPartenaire&&<MenuItem value="Contrat signé">Contrat signé</MenuItem>}
+                  {!isPartenaire&&<MenuItem value="En attente de traitement"> Affaires non encors traités</MenuItem>}
+                  <MenuItem value="Vendu">Affaires vendus</MenuItem>
+       
+                     </Select>
         <TableContainer component={Paper} >
+        {affaires.length==0&&isLoading?<Loading/>
+             : 
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>DATE</TableCell>
                 <TableCell align="right">TYPE DU BIEN</TableCell>
                 <TableCell align="right">PROPRIETAIRE</TableCell>
+                <TableCell align="right">APPORTEUR</TableCell>
                 <TableCell align="right">AGENCE</TableCell>
                 <TableCell align="right">STATUT</TableCell>
-                <TableCell align="right">CONTRAT</TableCell>
+                
               </TableRow>
             </TableHead>
             <TableBody>
-            {affaires.map((row) => (
+           {  
+          affaires.map(row => {
+              
+          
+              if(row.statut==statut){
+                return(
             <TableRow key={row.NomPrenom}>
               <TableCell component="th" scope="row">
-                {row.createdAt}
+                {row.creationDate}
               </TableCell>
               <TableCell align="right">{row.type}</TableCell>
               <TableCell align="right">{row.nomPrenom}</TableCell>
-              <TableCell align="right">{row.apporteur.username}</TableCell>
+              <TableCell align="right">{row.apporteur.email}</TableCell>
+              <TableCell align="right">{row.partenaire ?row.partenaire.email:"Pas encors affécté"}</TableCell>
+             
               <TableCell align="right">{row.statut}</TableCell>
-              <TableCell align="right">{row.contrat}</TableCell>
               
-             <TableCell align="right"><input
-                  type="button"
-                  value="Détail"
-                  onClick={()=>setAffaire(row)}
-               /></TableCell> 
+              
+             <TableCell align="right">
+             <IconButton style={{color:"#ff2a02"}}   onClick={()=>setAffaire(row)} component="span">
+             <ReceiptIcon/>
+        </IconButton>
+              
+               </TableCell> 
              
               
               </TableRow>
-          ))}
-            </TableBody>
-            
+                )
+              }
+          })
+}
+        </TableBody>
+        
           </Table>
+}
         </TableContainer>
         {affaire && <MonAffaire affaire={affaire} popup={close}/>}
         </div>
+        
         {!affaire && <Footer />}
         </div>
       );
